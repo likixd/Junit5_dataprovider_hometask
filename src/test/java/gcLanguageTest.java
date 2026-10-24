@@ -51,7 +51,6 @@ public class gcLanguageTest {
     @ParameterizedTest
     void  gcSiteShouldDisplayCorrectButtons (Language language, List<String> expectedButtons) {
         open("https://gymkhana-cup.ru/");
-        sleep(2000);
         $(".dropdown.pk-menu-items.flags a.dropdown-toggle").click();
         sleep(2000);
         $$(".dropdown-menu").find(text(language.name())).click();

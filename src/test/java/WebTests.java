@@ -1,17 +1,14 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
-
-import java.time.Duration;
-import java.util.stream.Stream;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class WebTests {
 
@@ -60,14 +57,5 @@ public class WebTests {
     $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text(userNumber));
     $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text(userEmail));
     }
-
-    //@ParameterizedTest(name = "набор кнопок")
-    //@CsvFileSource(resources = "/test_data/registrationRequiredFieldsSucess.csv")
-//    @DisplayName("Проверка наличия кнопок на разных языках страницы")
-//    @Test
-//    void checkButtonsDifferentLanguage() {
-//        open("https://www.susu.ru/");
-//        sleep(6000);
-//    }
 
 }
