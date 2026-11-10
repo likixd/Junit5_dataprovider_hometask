@@ -1,3 +1,4 @@
+import com.codeborne.selenide.Condition;
 import data.Language;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,20 +30,37 @@ public class gcLanguageTest {
         $(".title-with-bg").shouldHave(text(language.description));
     }
 
+// это работало)) в списке пробел вместо иконки в панельке вставлен пробел, делала на фактическом результате
+//    static Stream<Arguments> gcSiteShouldDisplayCorrectButtons() {
+//        return Stream.of(
+//                Arguments.of(
+//                        Language.RU,
+//                        List.of("Информация Соревнования Спортсмены Gymkhana GP Вход")
+//                ),
+//                Arguments.of(
+//                        Language.EN,
+//                        List.of("INFORMATION COMPETITIONS RIDERS GYMKHANA GP LOG IN")
+//                ),
+//                Arguments.of(
+//                        Language.CN,
+//                        List.of("信息 比赛 运动员 GYMKHANA GP 入口")
+//                )
+//        );
+//    }
 
     static Stream<Arguments> gcSiteShouldDisplayCorrectButtons() {
         return Stream.of(
                 Arguments.of(
                         Language.RU,
-                        List.of("Информация Соревнования Спортсмены Gymkhana GP Вход")
+                        List.of("Информация", "Соревнования", "Спортсмены",  "Gymkhana GP", "Вход")
                 ),
                 Arguments.of(
                         Language.EN,
-                        List.of("INFORMATION COMPETITIONS RIDERS GYMKHANA GP LOG IN")
+                        List.of("INFORMATION", "COMPETITIONS", "RIDERS", "GYMKHANA GP", "LOG IN")
                 ),
                 Arguments.of(
                         Language.CN,
-                        List.of("信息 COMPETITIONS RIDERS GYMKHANA GP LOG IN")
+                        List.of("信息", "比赛", "运动员", "GYMKHANA GP", "入口")
                 )
         );
     }
@@ -53,11 +71,19 @@ public class gcLanguageTest {
         open("https://gymkhana-cup.ru/");
         $(".dropdown.pk-menu-items.flags a.dropdown-toggle").click();
         sleep(2000);
-        $$(".dropdown-menu").find(text(language.name())).click();
-        System.out.println("выбранный язык = " + language);
 
-//        $$(".dropdown-menu a.change-language").find(attribute("data-lang", language.code)).click();
-        $$("#navbarCollapse").filter(visible)
+        //   $$(".dropdown-menu").find(text(language.name())).click(); неправильное для себя, для истории
+        //        $$(".dropdown-menu a.change-language").find(attribute("data-lang", language.code)).click();
+
+        $$("a.change-language[data-lang='" + language.code + "']") .findBy(visible) .click();
+
+
+        // со старым локатором тоже работало) потому что вместо кнопки со сменой языка у меня вставлен пробел)))
+        //        $$("#navbarCollapse").filter(visible)
+//                .shouldHave(texts(expectedButtons));
+
+        $$("#navbarCollapse > ul.nav.navbar-nav.navbar-left > li > a")
+                .excludeWith(Condition.empty)
                 .shouldHave(texts(expectedButtons));
     }
 }
